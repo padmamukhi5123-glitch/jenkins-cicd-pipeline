@@ -5,22 +5,30 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo 'Building the application...'
-                sh 'cat app.txt'
+                echo 'Building the Node.js application...'
+                sh 'npm install'
             }
         }
 
         stage('Test') {
             steps {
                 echo 'Testing the application...'
-                sh 'test -f app.txt'
+                sh 'test -f app.js'
+                sh 'node --version'
+                sh 'npm --version'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                echo 'Building Docker image...'
+                sh 'docker build -t jenkins-node-app .'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Deploying the application...'
-                sh 'echo "Application deployed successfully!"'
+                echo 'Application deployed successfully!'
             }
         }
     }
